@@ -41,4 +41,11 @@ class ntp {
     ensure => 'running',
     enable => 'true',
   }
+
+  exec {
+    'set time':
+      path    => '/bin:/usr/bin',
+      command => 'echo "Europe/London" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata'
+      require => [Service['ntp']]
+  }
 }
